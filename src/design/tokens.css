@@ -1,0 +1,131 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  /* Backgrounds and layered surfaces */
+  --color-frame: #282825;
+  --color-workspace: #F3F0E7;
+  --color-surface: #FBFAF7;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-soft: #EFEBDF;
+  --color-surface-hover: #F6F3EB;
+  --color-canvas-surround: #E8E6E2;
+
+  /* Text and linework */
+  --color-ink: #252522;
+  --color-ink-secondary: #6D6B66;
+  --color-ink-muted: #96928C;
+  --color-line: #E5E1D8;
+  --color-line-strong: #D6D1C6;
+
+  /* Minimal accents */
+  --color-copper: #C66F42;
+  --color-copper-hover: #B76137;
+  --color-copper-soft: #F5E7DB;
+  --color-focus: #93745F;
+
+  /* Functional timeline tints, desaturated by design */
+  --color-track-video: #D8E3DE;
+  --color-track-image: #E5E0CF;
+  --color-track-text: #DDDDE8;
+  --color-track-audio: #DDE6DC;
+  --color-track-transition: #F0DFC9;
+
+  /* Geometry */
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 17px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgb(35 31 26 / 5%), 0 5px 16px rgb(35 31 26 / 3%);
+  --shadow-popover: 0 12px 28px rgb(35 31 26 / 12%);
+
+  /* Typography */
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+
+  /* Motion */
+  --ease-editor: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  --border-hairline: 1px solid var(--color-line);
+}
+
+@layer base {
+  * {
+    font-synthesis: none;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background: var(--color-frame);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: var(--color-copper-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  @keyframes popover-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97) translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes overlay-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-popover-in {
+    animation: popover-in 140ms var(--ease-editor);
+  }
+
+  .animate-overlay-in {
+    animation: overlay-in 140ms var(--ease-editor);
+  }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#17160F"/>
+  <!-- film-strip sprocket holes -->
+  <rect x="9" y="15" width="6.5" height="6.5" rx="1.8" fill="#F7F6F2"/>
+  <rect x="9" y="28.75" width="6.5" height="6.5" rx="1.8" fill="#F7F6F2"/>
+  <rect x="9" y="42.5" width="6.5" height="6.5" rx="1.8" fill="#F7F6F2"/>
+  <!-- slide frame -->
+  <rect x="22" y="19" width="34" height="26" rx="4" fill="#F7F6F2"/>
+  <!-- play -->
+  <path d="M34.5 26.2 L46 32 L34.5 37.8 Z" fill="#17160F"/>
+</svg>
