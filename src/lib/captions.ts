@@ -32,18 +32,21 @@ const tidy = (value: string | null | undefined): string | undefined => {
   return text && text.length > 1 ? text : undefined;
 };
 
-/** False-positive tag hits decode to symbol-heavy gibberish; real captions are
- *  mostly letters, digits, spaces and ordinary punctuation. */
+/** False-positive tag hits decode to symbol-stuffed fragments like "xŽ@;Å8" —
+ *  latin-1 mojibake still counts as "letters", so a char-level gate passes it.
+ *  Real captions are sequences of word-shaped tokens instead: letters/digits
+ *  inside, punctuation at the edges. A couple of odd tokens ("&", "—") is fine;
+ *  junk is mostly non-words. */
+const WORD_TOKEN = /^[.,;:!?'’'“”"()&@+]*[\p{L}\p{N}]+(?:[.\-–—/'’][\p{L}\p{N}]+)*[.,;:!?'’'“”"()&@+]*$/u;
+
 function plausibleCaption(text: string): boolean {
-  let good = 0;
-  let letters = 0;
-  for (const ch of text) {
-    if (/[\p{L}\p{N}\s.,;:!?'’"“”()\-–—/&@+]/u.test(ch)) {
-      good += 1;
-      if (/\p{L}/u.test(ch)) letters += 1;
-    }
+  if (!/\p{L}/u.test(text)) return false;
+  const tokens = text.split(/\s+/).filter(Boolean);
+  let wordChars = 0;
+  for (const token of tokens) {
+    if (WORD_TOKEN.test(token)) wordChars += token.length;
   }
-  return letters / text.length >= 0.3 && good / text.length >= 0.8;
+  return wordChars / text.length >= 0.7;
 }
 
 /** Normalise + gate: returns undefined when the value is really binary junk. */

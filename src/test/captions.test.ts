@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { captionLayout, parseCaptionBytes, resolveCaptionText } from '../lib/captions';
+import { captionLayout, embeddedCaption, parseCaptionBytes, resolveCaptionText } from '../lib/captions';
 import type { MediaAsset, MediaElement } from '../lib/types';
 
 const encoder = new TextEncoder();
@@ -90,6 +90,19 @@ describe('resolveCaptionText', () => {
 
   it('falls back to the file name (extension stripped)', () => {
     expect(resolveCaptionText(mediaEl, { name: 'beach day.JPG' } as MediaAsset)).toBe('beach day');
+  });
+
+  // Real-world regression: a JPEG imported before the APP13 scoping fix stored
+  // scan-data bytes as its caption. The stored junk must never render.
+  const mojibake = "xŽ@; Å8 ø h A9Å ƒ' '± Þ ZS/Ë3Ê y€ÜãŽÇðaœÇ Œ èPâ¾Äžp éQƒ|ŠÀ, pI Ú_ N æã†C'°öÄüšGÉ9Á há0Ü 9ö€Ï y";
+
+  it('rejects stored latin-1 mojibake captions', () => {
+    expect(embeddedCaption({ caption: mojibake } as MediaAsset)).toBeUndefined();
+  });
+
+  it('falls back to the file name when the stored caption is junk', () => {
+    const asset = { caption: mojibake, name: 'Natalie and Denise with book.jpg' } as MediaAsset;
+    expect(resolveCaptionText(mediaEl, asset)).toBe('Natalie and Denise with book');
   });
 });
 
