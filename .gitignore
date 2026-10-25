@@ -17,6 +17,10 @@ dist-ssr
 .env.*
 *.ffproj
 
+# Deploy config with server-specific values — see *.example templates
+deploy.sh
+ecosystem.config.cjs
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

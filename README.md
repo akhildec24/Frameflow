@@ -14,6 +14,14 @@ npm run lint      # eslint across the project
 npm run build     # type-checks (tsc -b) and produces a production build
 ```
 
+## Deployment
+
+`server.js` is a zero-dependency Node static server for the `dist/` build —
+serve it however you like (PM2, systemd, a container). For PM2, copy
+`ecosystem.config.example.cjs` → `ecosystem.config.cjs` and set your port.
+Both `ecosystem.config.cjs` and any local `deploy.sh` are gitignored since
+they contain server-specific values.
+
 ## Architecture
 
 - **`src/lib`** — framework-agnostic domain types (`types.ts`), Zod schema

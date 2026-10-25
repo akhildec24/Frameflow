@@ -7,7 +7,8 @@ import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
-const PORT = Number(process.env.PORT || 3070);
+// Production port comes from PM2 env (ecosystem.config.cjs); 8080 is a generic default.
+const PORT = Number(process.env.PORT || 8080);
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
